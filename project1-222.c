@@ -3,7 +3,7 @@
 
 int main_menu() {
     int usr_choice;
-    printf("Performance assessment:\n"
+    printf("\nPerformance assessment:\n"
     "--------------------\n"
     "1) Enter parameteres\n"
     "2) Print table of input parameters\n"
@@ -14,11 +14,16 @@ int main_menu() {
     return usr_choice;
 }
 
+float add(float CPI, int IC) {
+    float addition = CPI + IC;
+    return addition;
+}
+
 int main() {
 
     int num_IC = 0;
     int frequency, i, user_choice;
-    float *cpi = NULL;
+    float *cpi = NULL, avg_cpi, cycle_count, avg_IC;
     int *ICount = NULL;
     
 
@@ -50,16 +55,37 @@ int main() {
             //-------------------------------------
             break;
         case 2:
-            if (num_IC == 0) {
+            if (num_IC == 0) { //Checks to make sure parameters have been entered.
                 printf("The number of Classes are 0. You must first enter parameters.");
                 break;
             }
+
+            printf("-----------------------\n|Class |CPI    |Count  |\n"); //Prints the list
+            for (i = 0; i < num_IC; i++) {
+                printf("-----------------------\n|%d     |%g      |%d      |\n", i+1, cpi[i], ICount[i]); //Adds the amount of rows needed
+            }
+            printf("-----------------------\n");
+
+
             break;
         case 3:
-        if (num_IC == 0) {
+        if (num_IC == 0) { //Checks to make sure parameters have been entered.
                 printf("The number of Classes are 0. You must first enter parameters.");
                 break;
             }
+
+        for (i = 0; i < num_IC; i++) { //Calculates average CPI
+            cycle_count += cpi[i] * ICount[i];
+            avg_IC += ICount[i];
+        }
+        avg_cpi = cycle_count / avg_IC;
+
+        printf("-----------------------\n|Performance   |Value  |\n");
+        printf("-----------------------\n|Average CPI   |%.2f  |\n", avg_cpi);
+        printf("-----------------------\n|CPU Time(ms)   |%.2f  |\n");
+        printf("-----------------------\n|MIPS   |%.2f  |\n");
+        printf("-----------------------\n");
+
             break;
         case 4:
             printf("Quitting the program...\n");
