@@ -16,9 +16,11 @@ int main_menu() {
 
 int main() {
 
-    int user_choice;
-
-    int num_IC, frequency, CPI;
+    int num_IC = 0;
+    int frequency, i, user_choice;
+    float *cpi = NULL;
+    int *ICount = NULL;
+    
 
 
     do {
@@ -26,14 +28,38 @@ int main() {
         switch(user_choice) {
         case 1:
             //-------------------------------------
+            free(cpi); //Frees the allocated memory for cpi so it can be reallocated
+            free(ICount); //Frees the allocated memory for ICount so it can be reallocated
 
+            printf("Enter the number of instruction classes:");
+            scanf("%d", &num_IC);
 
+            printf("Enter the frequency of the machine (MHz): ");
+            scanf("%d", &frequency);
 
+            cpi = malloc(num_IC * sizeof(float));
+            ICount = malloc(num_IC * sizeof(int));
+
+            for (i = 0; i < num_IC; i++) { //Takes CPI and Instruction Count of Each Class
+                printf("Enter CPI of class %d: ", i + 1);
+                scanf("%f", &cpi[i]);
+                printf("Enter instruction count of class %d (millions): ", i + 1);
+                scanf("%d", &ICount[i]);
+            }
+            
             //-------------------------------------
             break;
         case 2:
+            if (num_IC == 0) {
+                printf("The number of Classes are 0. You must first enter parameters.");
+                break;
+            }
             break;
         case 3:
+        if (num_IC == 0) {
+                printf("The number of Classes are 0. You must first enter parameters.");
+                break;
+            }
             break;
         case 4:
             printf("Quitting the program...\n");
