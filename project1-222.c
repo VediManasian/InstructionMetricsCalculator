@@ -2,15 +2,23 @@
 #include <stdlib.h>
 
 int main_menu() {
-    int usr_choice;
-    printf("\nPerformance assessment:\n"
-    "--------------------\n"
-    "1) Enter parameteres\n"
-    "2) Print table of input parameters\n"
-    "3) Print table of performance\n"
-    "4) Quit\n"
-    "Enter selection: ");
-    scanf("%d", &usr_choice);
+    int usr_choice, validInput;
+    while (1) {
+        printf("\nPerformance assessment:\n"
+        "--------------------\n"
+        "1) Enter parameteres\n"
+        "2) Print table of input parameters\n"
+        "3) Print table of performance\n"
+        "4) Quit\n"
+        "Enter selection: ");
+        validInput = scanf("%d", &usr_choice);
+        if (validInput == 1) {
+        break;
+        } else {
+            printf("Invalid Input! Please enter an integer (1-4).\n");
+            while (getchar() != '\n');
+        }
+    }
     return usr_choice;
 }
 
@@ -23,7 +31,7 @@ int main() {
 
     int num_IC = 0;
     int frequency, i, user_choice;
-    float *cpi = NULL, avg_cpi, cycle_count, avg_IC;
+    float *cpi = NULL, avg_cpi, cycle_count, avg_IC, CPU_time, MIPS;
     int *ICount = NULL;
     
 
@@ -69,22 +77,28 @@ int main() {
 
             break;
         case 3:
-        if (num_IC == 0) { //Checks to make sure parameters have been entered.
+            if (num_IC == 0) { //Checks to make sure parameters have been entered.
                 printf("The number of Classes are 0. You must first enter parameters.");
                 break;
             }
 
-        for (i = 0; i < num_IC; i++) { //Calculates average CPI
-            cycle_count += cpi[i] * ICount[i];
-            avg_IC += ICount[i];
-        }
-        avg_cpi = cycle_count / avg_IC;
+            for (i = 0; i < num_IC; i++) { //Calculates average CPI
+                cycle_count += cpi[i] * ICount[i];
+                avg_IC += ICount[i];
+            }
+            avg_cpi = cycle_count / avg_IC;
 
-        printf("-----------------------\n|Performance   |Value  |\n");
-        printf("-----------------------\n|Average CPI   |%.2f  |\n", avg_cpi);
-        printf("-----------------------\n|CPU Time(ms)   |%.2f  |\n");
-        printf("-----------------------\n|MIPS   |%.2f  |\n");
-        printf("-----------------------\n");
+            CPU_time = ((avg_cpi * avg_IC) / frequency) * 1000; //Calculates Clock Rate in ms
+
+            MIPS = frequency / avg_cpi; //Calculates MIPS
+
+
+
+            printf("-----------------------\n|Performance   |Value |\n"); //Displays table of performance
+            printf("-----------------------\n|Average CPI   |%.2f  |\n", avg_cpi);
+            printf("-----------------------\n|CPU Time(ms)  |%.2f  |\n", CPU_time);
+            printf("-----------------------\n|MIPS          |%.2f  |\n", MIPS);
+            printf("-----------------------\n");
 
             break;
         case 4:
